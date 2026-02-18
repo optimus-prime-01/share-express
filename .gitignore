@@ -52,6 +52,9 @@ test-*.txt
 test-*.pdf
 downloaded-*
 
+# Shell scripts (don't push to GitHub)
+*.sh
+
 # Documentation files (keep only README.md)
 *.md
 !README.md
