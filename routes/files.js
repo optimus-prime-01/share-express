@@ -34,7 +34,14 @@ router.post('/', (req, res) => {
         size: req.file.size
       };
       
-      const baseUrl = process.env.APP_BASE_URL || 'http://localhost:3000';
+      // Auto-detect base URL from request if not set in env
+      let baseUrl = process.env.APP_BASE_URL;
+      if (!baseUrl) {
+        const protocol = req.protocol || 'http';
+        const host = req.get('host') || 'localhost:3000';
+        baseUrl = `${protocol}://${host}`;
+        console.log(`🌐 Auto-detected base URL: ${baseUrl}`);
+      }
       
       // Try to save to MongoDB if connected, otherwise use memory storage
       if (mongoose.connection.readyState === 1) {
@@ -80,6 +87,16 @@ router.post('/send', async (req, res) => {
     const response = await file.save();
     // send mail
     const sendMail = require('../services/mailService');
+    
+    // Auto-detect base URL for email links
+    let emailBaseUrl = process.env.APP_BASE_URL;
+    if (!emailBaseUrl) {
+      // Use request to get base URL (fallback)
+      const protocol = req.protocol || 'https';
+      const host = req.get('host') || 'localhost:3000';
+      emailBaseUrl = `${protocol}://${host}`;
+    }
+    
     sendMail({
       from: emailFrom,
       to: emailTo,
@@ -87,7 +104,7 @@ router.post('/send', async (req, res) => {
       text: `${emailFrom} shared a file with you.`,
       html: require('../services/emailTemplate')({
                 emailFrom : emailFrom, 
-                downloadLink: `${process.env.APP_BASE_URL}/files/${file.uuid}?source=email` ,
+                downloadLink: `${emailBaseUrl}/files/${file.uuid}?source=email` ,
                 size: parseInt(file.size/1000) + ' KB',
                 expires: '24 hours'
             })
