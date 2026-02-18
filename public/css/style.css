@@ -332,6 +332,42 @@
     background: var(--dark-blue);
   }
 
+  /* Error Display */
+  .error-display {
+    text-align: center;
+    padding: 1rem 0;
+  }
+
+  .error-display h3 {
+    color: var(--error-red);
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+  }
+
+  .error-display p {
+    color: var(--text-dark);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    padding: 0 1rem;
+  }
+
+  .back-link {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    background: var(--light-blue);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    margin-top: 1rem;
+  }
+
+  .back-link:hover {
+    background: var(--dark-blue);
+    transform: translateY(-2px);
+  }
+
   /* Responsive */
   @media (max-width: 768px) {
     .logo {

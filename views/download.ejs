@@ -15,7 +15,11 @@
     <section class="download">
         <img class="download__icon" src="/img/download-sd.svg" alt="inshare-download">
         <% if(locals.error){ %>
-        <h4><%= locals.error %> 😏</h4>
+        <div class="error-display">
+            <h3>❌ Error</h3>
+            <p><%= locals.error %></p>
+            <a href="/" class="back-link">← Go Back to Upload</a>
+        </div>
         <% } else { %>
         <h2>Your file is ready to download</h2>
         <p>Link expires in 24 hours</p>
